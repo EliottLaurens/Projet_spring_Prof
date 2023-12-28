@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Espace Administrateur</title>
+</head>
+<body>
+<h1>Bienvenue dans l'espace administrateur!</h1>
+
+<a th:href="@{/admin/createUser}">Créer un nouveau compte</a>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Déconnexion"/>
+</form>
+</body>
+</html>
+

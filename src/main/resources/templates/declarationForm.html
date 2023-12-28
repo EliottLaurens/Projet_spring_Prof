@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Votre déclaration de frais annexes</title>
+</head>
+<body>
+<h1>Votre déclaration de frais annexes</h1>
+<form th:action="@{/professor/submitDeclaration}" method="post">
+    <!-- Composants du formulaire similaires à l'image fournie -->
+    <div>Ref Dossier : <input type="text" name="refDossier"/></div>
+    <!-- Ajoutez les autres champs nécessaires ici -->
+
+    <!-- Bouton de soumission du formulaire -->
+    <input type="submit" value="Soumettre la déclaration"/>
+</form>
+</body>
+</html>

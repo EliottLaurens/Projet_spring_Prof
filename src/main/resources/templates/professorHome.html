@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Espace Professeur</title>
+</head>
+<body>
+<h1>Bienvenue dans l'espace professeur!</h1>
+
+<!-- Bouton pour préparer la déclaration -->
+<a th:href="@{/professor/prepareDeclaration}">Préparer la déclaration</a>
+
+<!-- Formulaire de déconnexion -->
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Déconnexion"/>
+</form>
+</body>
+</html>
