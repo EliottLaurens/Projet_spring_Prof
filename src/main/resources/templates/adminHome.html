@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Espace Administrateur</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
 <h1>Bienvenue dans l'espace administrateur!</h1>
@@ -11,6 +12,60 @@
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Déconnexion"/>
 </form>
+<div>
+    <h1>Déclarations</h1>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Ref Dossier</th>
+            <th>Date de Création</th>
+            <th>Status</th>
+            <th>Date de Formation</th>
+            <th>Lieu de Formation</th>
+            <th>Intitulé de Formation</th>
+            <th>Type de Transport</th>
+            <th>Hébergement Gratuit</th>
+            <th>Frais de Restauration</th>
+            <th>Montant Restauration</th>
+            <th>Titulaire du Compte</th>
+            <th>IBAN</th>
+            <th>BIC</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="declaration : ${declarations}">
+            <td th:text="${declaration.id}"></td>
+            <td th:text="${declaration.refDossier}"></td>
+            <td th:text="${#dates.format(declaration.dateCreation, 'dd/MM/yyyy HH:mm:ss')}"></td>
+            <td th:text="${declaration.status}"></td>
+            <td th:text="${#dates.format(declaration.dateFormation, 'dd/MM/yyyy')}"></td>
+            <td th:text="${declaration.lieuFormation}"></td>
+            <td th:text="${declaration.intituleFormation}"></td>
+            <td th:text="${declaration.transportType}"></td>
+            <td th:text="${declaration.hebergementGratuit ? 'Oui' : 'Non'}"></td>
+            <td th:text="${declaration.fraisRestauration ? 'Oui' : 'Non'}"></td>
+            <td th:text="${declaration.montantRestauration}"></td>
+            <td th:text="${declaration.titulaireCompte}"></td>
+            <td th:text="${declaration.iban}"></td>
+            <td th:text="${declaration.bic}"></td>
+            <td>
+                <form th:action="@{/admin/validateDeclaration(declarationId=${declaration.id}, action='valide')}" method="post">
+                    <input type="submit" value="Valider" th:disabled="${declaration.status == 'valide'}" class="btn btn-success btn-sm"/>
+                </form>
+                <form th:action="@{/admin/validateDeclaration(declarationId=${declaration.id}, action='invalide')}" method="post">
+                    <input type="submit" value="Invalider" th:disabled="${declaration.status == 'invalide'}" class="btn btn-danger btn-sm"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
 

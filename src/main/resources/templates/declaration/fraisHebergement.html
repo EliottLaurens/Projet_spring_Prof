@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Étape 4: Déclarez vos frais d'hébergement</title>
+    <style>
+        .step-nav {
+            list-style: none;
+            overflow: hidden;
+            padding-left: 0;
+        }
+        .step-nav li {
+            float: left;
+            padding: 5px 10px;
+            border-right: 1px solid #ddd;
+            color: #999; /* Gris clair pour les étapes non atteintes */
+        }
+        .step-nav li.completed {
+            background-color: #0f0; /* Vert pour les étapes terminées */
+            color: white;
+        }
+        .step-nav li.current {
+            background-color: #666; /* Gris foncé pour l'étape en cours */
+            color: white;
+        }
+        .step-nav li:last-child {
+            border-right: none;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/navigation :: stepNavigation(${stepNumber}, ${declaration.id})"></div>
+<h1>Étape 4: Déclarez vos frais d'hébergement</h1>
+<form th:action="@{/professor/processHebergement}" th:object="${declaration}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <div>
+        <input type="radio" id="hebergementGratuit" name="hebergementGratuit" th:value="true" th:checked="${declaration.hebergementGratuit == true}" />
+        <label for="hebergementGratuit">Hébergement gratuit</label>
+    </div>
+    <div>
+        <input type="radio" id="hebergementPayant" name="hebergementGratuit" th:value="false" th:checked="${declaration.hebergementGratuit == false}" />
+        <label for="hebergementPayant">Hébergement payant</label>
+    </div>
+    <input type="submit" value="Continuer"/>
+</form>
+
+<!-- Affichage conditionnel basé sur l'état de l'hébergement -->
+<div th:if="${declaration.hebergementGratuit != null}">
+    <div th:if="${declaration.hebergementGratuit}">
+        <p>Votre hébergement est actuellement <strong>gratuit</strong>.</p>
+    </div>
+    <div th:if="${!declaration.hebergementGratuit}">
+        <p>Votre hébergement est actuellement <strong>payant</strong>.</p>
+    </div>
+</div>
+<div th:if="${declaration.hebergementGratuit == null}">
+    <p>Le statut de votre hébergement n'est pas encore défini.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Étape 2: Déclarez les détails de formation</title>
+    <style>
+        .step-nav {
+            list-style: none;
+            overflow: hidden;
+            padding-left: 0;
+        }
+        .step-nav li {
+            float: left;
+            padding: 5px 10px;
+            border-right: 1px solid #ddd;
+            color: #999; /* Gris clair pour les étapes non atteintes */
+        }
+        .step-nav li.completed {
+            background-color: #0f0; /* Vert pour les étapes terminées */
+            color: white;
+        }
+        .step-nav li.current {
+            background-color: #666; /* Gris foncé pour l'étape en cours */
+            color: white;
+        }
+        .step-nav li:last-child {
+            border-right: none;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/navigation :: stepNavigation(${stepNumber}, ${declaration.id})"></div>
+<h1>Étape 2: Déclarez les détails de formation</h1>
+<form th:action="@{/professor/processDetailsFormation}" th:object="${declaration}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <div>
+        <label for="refDossier">Référence du dossier:</label>
+        <input type="text" id="refDossier" th:field="*{refDossier}" />
+    </div>
+    <div>
+        <label for="dateFormation">Date:</label>
+        <input type="date" id="dateFormation" th:field="*{dateFormation}" />
+    </div>
+    <div>
+        <label for="lieuFormation">Lieu:</label>
+        <input type="text" id="lieuFormation" th:field="*{lieuFormation}" />
+    </div>
+    <div>
+        <label for="intituleFormation">Intitulé:</label>
+        <input type="text" id="intituleFormation" th:field="*{intituleFormation}" />
+    </div>
+    <input type="submit" value="Continuer"/>
+</form>
+</body>
+</html>

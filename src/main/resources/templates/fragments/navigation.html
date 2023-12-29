@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Fragment de Navigation</title>
+</head>
+<body>
+<div th:fragment="stepNavigation(stepNumber, declarationId)">
+    <ul class="step-nav">
+        <li th:classappend="${stepNumber >= 1 ? 'completed' : ''}">
+            <a th:href="@{/professor/prepareDeclaration}">1. PRÉPARER LA DÉCLARATION</a>
+        </li>
+        <li th:classappend="${stepNumber == 2 ? 'current' : (stepNumber > 2 ? 'completed' : '')}">
+            <a th:href="@{/professor/detailsFormation(declarationId=${declarationId})}">2. DÉTAIL DE FORMATION</a>
+        </li>
+        <li th:classappend="${stepNumber == 3 ? 'current' : (stepNumber > 3 ? 'completed' : '')}">
+            <a th:href="@{/professor/fraisTransport(declarationId=${declarationId})}">3. FRAIS DE TRANSPORT</a>
+        </li>
+        <li th:classappend="${stepNumber == 4 ? 'current' : (stepNumber > 4 ? 'completed' : '')}">
+            <a th:href="@{/professor/fraisHebergement(declarationId=${declarationId})}">4. FRAIS D'HÉBERGEMENT</a>
+        </li>
+        <li th:classappend="${stepNumber == 5 ? 'current' : (stepNumber > 5 ? 'completed' : '')}">
+            <a th:href="@{/professor/fraisRestauration(declarationId=${declarationId})}">5. FRAIS DE RESTAURATION</a>
+        </li>
+        <li th:classappend="${stepNumber == 6 ? 'current' : (stepNumber > 6 ? 'completed' : '')}">
+            <a th:href="@{/professor/coordonneesBancaires(declarationId=${declarationId})}">6. COORDONNÉES BANCAIRES</a>
+        </li>
+        <li th:classappend="${stepNumber == 7 ? 'current' : (stepNumber > 7 ? 'completed' : '')}">
+            <a th:href="@{/professor/recapitulatif(declarationId=${declarationId})}">7. RÉCAPITULATIF</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

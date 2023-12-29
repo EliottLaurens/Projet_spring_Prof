@@ -1,0 +1,40 @@
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+
+    <view-state id="prepareDeclaration" view="declaration/prepareDeclaration">
+        <transition on="next" to="detailsFormation"/>
+    </view-state>
+
+    <view-state id="detailsFormation" view="declaration/detailsFormation">
+        <transition on="next" to="fraisTransport"/>
+        <transition on="previous" to="prepareDeclaration"/>
+    </view-state>
+
+    <view-state id="fraisTransport" view="declaration/fraisTransport">
+        <transition on="next" to="fraisHebergement"/>
+        <transition on="previous" to="detailsFormation"/>
+    </view-state>
+
+    <view-state id="fraisHebergement" view="declaration/fraisHebergement">
+        <transition on="next" to="fraisRestauration"/>
+        <transition on="previous" to="fraisTransport"/>
+    </view-state>
+
+    <view-state id="fraisRestauration" view="declaration/fraisRestauration">
+        <transition on="next" to="coordonneesBancaires"/>
+        <transition on="previous" to="fraisHebergement"/>
+    </view-state>
+
+    <view-state id="coordonneesBancaires" view="declaration/coordonneesBancaires">
+        <transition on="next" to="recapitulatif"/>
+        <transition on="previous" to="fraisRestauration"/>
+    </view-state>
+
+    <view-state id="recapitulatif" view="declaration/recapitulatif">
+        <transition on="previous" to="coordonneesBancaires"/>
+        <!-- Ajoutez ici une transition pour la soumission du formulaire si nécessaire -->
+    </view-state>
+
+</flow>

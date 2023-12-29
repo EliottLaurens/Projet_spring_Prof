@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Étape 5: Déclarez vos frais de restauration</title>
+    <style>
+        .step-nav {
+            list-style: none;
+            overflow: hidden;
+            padding-left: 0;
+        }
+        .step-nav li {
+            float: left;
+            padding: 5px 10px;
+            border-right: 1px solid #ddd;
+            color: #999; /* Gris clair pour les étapes non atteintes */
+        }
+        .step-nav li.completed {
+            background-color: #0f0; /* Vert pour les étapes terminées */
+            color: white;
+        }
+        .step-nav li.current {
+            background-color: #666; /* Gris foncé pour l'étape en cours */
+            color: white;
+        }
+        .step-nav li:last-child {
+            border-right: none;
+        }
+        #montantRestaurationDiv {
+            display: none;
+        }
+    </style>
+    <script>
+        function toggleMontantInput() {
+            var checkBox = document.getElementById('fraisRestauration');
+            var montantDiv = document.getElementById('montantRestaurationDiv');
+
+            if (checkBox.checked) {
+                montantDiv.style.display = 'block';
+            } else {
+                montantDiv.style.display = 'none';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('fraisRestauration').addEventListener('change', toggleMontantInput);
+            toggleMontantInput(); // Pour conserver l'état correct lors du rechargement de la page
+        });
+    </script>
+</head>
+<body>
+<div th:replace="fragments/navigation :: stepNavigation(${stepNumber}, ${declaration.id})"></div>
+<h1>Étape 5: Déclarez vos frais de restauration</h1>
+<form th:action="@{/professor/processRestauration}" th:object="${declaration}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <div>
+        <input type="checkbox" id="fraisRestauration" name="fraisRestauration" onclick="toggleMontantInput()"/>
+        <label for="fraisRestauration">Déclarer des frais de restauration</label>
+    </div>
+    <!-- Conteneur pour le champ montant, initialement masqué -->
+    <div id="montantRestaurationDiv">
+        <label for="montantRestauration">Montant:</label>
+        <input type="number" id="montantRestauration" name="montantRestauration" />
+    </div>
+    <input type="submit" value="Continuer"/>
+</form>
+</body>
+</html>

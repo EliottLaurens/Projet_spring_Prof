@@ -43,27 +43,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll(); // Permet à tout le monde de se déconnecter
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//
-//
-//        auth.inMemoryAuthentication()
-//                .passwordEncoder(encoder)
-//                .withUser("professeur")
-//                .password(encoder.encode("prof"))
-//                .roles("PROFESSOR")
-//                .and()
-//                .withUser("admin")
-//                .password(encoder.encode("admin"))
-//                .roles("ADMIN");
-//    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailsService)
-                .passwordEncoder(passwordEncoder());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+
+        auth.inMemoryAuthentication()
+                .passwordEncoder(encoder)
+                .withUser("professeur")
+                .password(encoder.encode("prof"))
+                .roles("PROFESSOR")
+                .and()
+                .withUser("admin")
+                .password(encoder.encode("admin"))
+                .roles("ADMIN");
     }
+
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(customUserDetailsService)
+//                .passwordEncoder(passwordEncoder());
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
