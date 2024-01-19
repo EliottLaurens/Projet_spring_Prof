@@ -2,42 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Étape 3: Déclarez vos frais de transport</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         .step-nav {
             list-style: none;
-            overflow: hidden;
-            padding-left: 0;
+            padding: 0;
         }
         .step-nav li {
-            float: left;
-            padding: 5px 10px;
-            border-right: 1px solid #ddd;
-            color: #999; /* Gris clair pour les étapes non atteintes */
+            padding: 8px 15px;
+            margin-bottom: 4px;
+            border-radius: 4px;
         }
         .step-nav li.completed {
-            background-color: #0f0; /* Vert pour les étapes terminées */
+            background-color: #28a745; /* Vert pour les étapes terminées */
             color: white;
         }
         .step-nav li.current {
-            background-color: #666; /* Gris foncé pour l'étape en cours */
+            background-color: #007bff; /* Bleu pour l'étape en cours */
             color: white;
         }
-        .step-nav li:last-child {
-            border-right: none;
+        .step-nav li a {
+            color: inherit; /* Assure que les liens utilisent la couleur du li parent */
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-<div th:replace="fragments/navigation :: stepNavigation(${stepNumber}, ${declaration.id})"></div>
-<h1>Étape 3: Déclarez vos frais de transport</h1>
-<form th:action="@{/professor/processTransport}" th:object="${declaration}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    <label for="transportType">Quel type de transport avez-vous utilisé entre votre domicile et le lieu de formation?</label>
-    <select id="transportType" th:field="*{transportType}">
-        <option value="train">Grandes lignes: Train, Avion, Ferry</option>
-        <option value="vehicle">Mon propre véhicule</option>
-    </select>
-    <input type="submit" value="Continuer"/>
-</form>
+<div class="container mt-4">
+    <div th:replace="fragments/navigation :: stepNavigation(${stepNumber}, ${declaration.id})"></div>
+    <h1 class="mb-3">Étape 3: Déclarez vos frais de transport</h1>
+    <form th:action="@{/professor/processTransport}" th:object="${declaration}" method="post" class="mb-3">
+        <input type="hidden" th:field="*{id}" />
+        <div class="form-group">
+            <label for="transportType">Quel type de transport avez-vous utilisé entre votre domicile et le lieu de formation?</label>
+            <select id="transportType" th:field="*{transportType}" class="form-control">
+                <option value="train">Grandes lignes: Train, Avion, Ferry</option>
+                <option value="vehicle">Mon propre véhicule</option>
+            </select>
+        </div>
+        <input type="submit" value="Continuer" class="btn btn-primary"/>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

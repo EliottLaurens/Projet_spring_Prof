@@ -5,15 +5,17 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Bienvenue dans l'espace administrateur!</h1>
-
-<a th:href="@{/admin/createUser}">Créer un nouveau compte</a>
-
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Déconnexion"/>
-</form>
 <div>
-    <h1>Déclarations</h1>
+    <h1 class="mb-4">Bienvenue dans l'espace administrateur!</h1>
+
+    <a th:href="@{/admin/createUser}" class="btn btn-primary mb-3">Créer un nouveau compte</a>
+
+    <form th:action="@{/logout}" method="post" class="mb-4">
+        <input type="submit" value="Déconnexion" class="btn btn-secondary"/>
+    </form>
+</div>
+<div>
+    <h2 class="mb-3">Déclarations</h2>
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>

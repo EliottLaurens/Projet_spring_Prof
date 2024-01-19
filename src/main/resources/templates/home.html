@@ -2,14 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
+    <!-- Incluez Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Bienvenue sur la page d'accueil!</h1>
+<div class="container mt-4">
+    <h1 class="mb-3">Bienvenue sur la page d'accueil!</h1>
     <form th:action="@{/login}" method="post">
-        <input type="submit" value="Connexion"/>
+        <input type="submit" value="Connexion" class="btn btn-primary"/>
     </form>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Déconnexion"/>
+    <form th:action="@{/logout}" method="post" class="mt-2">
+        <input type="submit" value="Déconnexion" class="btn btn-secondary"/>
     </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

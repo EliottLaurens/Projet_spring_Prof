@@ -2,53 +2,105 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Étape 7: Récapitulatif avant transmission</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         .step-nav {
             list-style: none;
-            overflow: hidden;
-            padding-left: 0;
+            padding: 0;
         }
         .step-nav li {
-            float: left;
-            padding: 5px 10px;
-            border-right: 1px solid #ddd;
-            color: #999; /* Gris clair pour les étapes non atteintes */
+            padding: 8px 15px;
+            margin-bottom: 4px;
+            border-radius: 4px;
         }
         .step-nav li.completed {
-            background-color: #0f0; /* Vert pour les étapes terminées */
+            background-color: #28a745; /* Vert pour les étapes terminées */
             color: white;
         }
         .step-nav li.current {
-            background-color: #666; /* Gris foncé pour l'étape en cours */
+            background-color: #007bff; /* Bleu pour l'étape en cours */
             color: white;
         }
-        .step-nav li:last-child {
-            border-right: none;
+        .step-nav li a {
+            color: inherit; /* Assure que les liens utilisent la couleur du li parent */
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-<div th:replace="fragments/navigation :: stepNavigation(${stepNumber}, ${declaration.id})"></div>
-<h1>Étape 7: Récapitulatif avant transmission</h1>
-<div>
-    <p>Id: <span th:text="${declaration.id}"></span></p>
-    <p>Ref Dossier: <span th:text="${declaration.refDossier}"></span></p>
-    <p>Date de Création: <span th:text="${#dates.format(declaration.dateCreation, 'dd/MM/yyyy')}"></span></p>
-    <p>Status du dossier: <span th:text="${declaration.status}"></span></p>
-    <p>Date de la Formation: <span th:text="${#dates.format(declaration.dateFormation, 'dd/MM/yyyy')}"></span></p>
-    <p>Lieu de la Formation: <span th:text="${declaration.lieuFormation}"></span></p>
-    <p>Intitulé de la Formation: <span th:text="${declaration.intituleFormation}"></span></p>
-    <p>Type de transport: <span th:text="${declaration.transportType}"></span></p>
-    <p>Type d'Hébergement: <span th:text="${declaration.hebergementGratuit != null ? (declaration.hebergementGratuit ? 'Gratuit' : 'Payant') : 'Non défini'}"></span></p>
-    <p>Frais de Restauration: <span th:text="${declaration.fraisRestauration != null ? (declaration.fraisRestauration ? 'Payant' : 'Gratuit') : 'Non défini'}"></span></p>
-    <p>Montant des Frais de Restauration: <span th:text="${declaration.montantRestauration}"></span></p>
-    <p>Titulaire du Compte: <span th:text="${declaration.titulaireCompte}"></span></p>
-    <p>IBAN: <span th:text="${declaration.iban}"></span></p>
-    <p>BIC: <span th:text="${declaration.bic}"></span></p>
+<div class="container mt-4">
+    <div th:replace="fragments/navigation :: stepNavigation(${stepNumber}, ${declaration.id})"></div>
+    <h1 class="mb-3">Étape 7: Récapitulatif avant transmission</h1>
+
+    <table class="table table-bordered">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td th:text="${declaration.id}"></td>
+        </tr>
+        <tr>
+            <th>Ref Dossier</th>
+            <td th:text="${declaration.refDossier}"></td>
+        </tr>
+        <tr>
+            <th>Date de Création</th>
+            <td th:text="${#dates.format(declaration.dateCreation, 'dd/MM/yyyy')}"></td>
+        </tr>
+        <tr>
+            <th>Status du dossier</th>
+            <td th:text="${declaration.status}"></td>
+        </tr>
+        <tr>
+            <th>Date de la Formation</th>
+            <td th:text="${#dates.format(declaration.dateFormation, 'dd/MM/yyyy')}"></td>
+        </tr>
+        <tr>
+            <th>Lieu de la Formation</th>
+            <td th:text="${declaration.lieuFormation}"></td>
+        </tr>
+        <tr>
+            <th>Intitulé de la Formation</th>
+            <td th:text="${declaration.intituleFormation}"></td>
+        </tr>
+        <tr>
+            <th>Type de transport</th>
+            <td th:text="${declaration.transportType}"></td>
+        </tr>
+        <tr>
+            <th>Type d'Hébergement</th>
+            <td th:text="${declaration.hebergementGratuit != null ? (declaration.hebergementGratuit ? 'Gratuit' : 'Payant') : 'Non défini'}"></td>
+        </tr>
+        <tr>
+            <th>Frais de Restauration</th>
+            <td th:text="${declaration.fraisRestauration != null ? (declaration.fraisRestauration ? 'Payant' : 'Gratuit') : 'Non défini'}"></td>
+        </tr>
+        <tr>
+            <th>Montant des Frais de Restauration</th>
+            <td th:text="${declaration.montantRestauration}"></td>
+        </tr>
+        <tr>
+            <th>Titulaire du Compte</th>
+            <td th:text="${declaration.titulaireCompte}"></td>
+        </tr>
+        <tr>
+            <th>IBAN</th>
+            <td th:text="${declaration.iban}"></td>
+        </tr>
+        <tr>
+            <th>BIC</th>
+            <td th:text="${declaration.bic}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form th:action="@{/professor/validateDeclaration}" th:object="${declaration}" method="post" class="mt-3">
+        <input type="hidden" th:field="*{id}" />
+        <input type="submit" value="Valider" class="btn btn-primary" />
+    </form>
 </div>
-<form th:action="@{/professor/validateDeclaration}" th:object="${declaration}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    <input type="submit" value="Valider" />
-</form>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

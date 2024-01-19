@@ -14,7 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class ProfessorController {
@@ -26,9 +28,19 @@ public class ProfessorController {
 
 
     @GetMapping("/professor/home")
-    public String home() {
+    public String home(Model model) {
+        List<Declaration> declarations = declarationRepository.findByStatusIn(Arrays.asList("attente", "valide", "invalide"));
+        model.addAttribute("declarations", declarations);
         return "professorHome";
     }
+
+    @GetMapping("/professor/editDeclaration")
+    public String editDeclaration(@RequestParam("declarationId") Long declarationId) {
+
+        // Redirigez vers la page de récapitulatif avec l'ID de la déclaration
+        return "redirect:/professor/recapitulatif?declarationId=" + declarationId;
+    }
+
 
     @GetMapping("/professor/prepareDeclaration")
     public String prepareDeclaration(Model model) {

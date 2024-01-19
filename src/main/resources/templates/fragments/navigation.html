@@ -2,6 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Fragment de Navigation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .step-nav {
+            list-style: none;
+            padding: 0;
+        }
+        .step-nav li {
+            padding: 8px 15px;
+            margin-bottom: 4px;
+            border-radius: 4px;
+        }
+        .step-nav li.completed {
+            background-color: #28a745; /* Vert pour les étapes terminées */
+            color: white;
+        }
+        .step-nav li.current {
+            background-color: #007bff; /* Bleu pour l'étape en cours */
+            color: white;
+        }
+        .step-nav li a {
+            color: inherit; /* Assure que les liens utilisent la couleur du li parent */
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 <div th:fragment="stepNavigation(stepNumber, declarationId)">
@@ -29,5 +53,9 @@
         </li>
     </ul>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -2,16 +2,170 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Espace Professeur</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.view-declaration').on('click', function() {
+                // Récupérer les attributs de données
+                $('#modal-declaration-id').text($(this).data('id'));
+                $('#modal-refdossier').text($(this).data('refdossier'));
+                $('#modal-datecreation').text($(this).data('datecreation'));
+                $('#modal-status').text($(this).data('status'));
+                $('#modal-datedeformation').text($(this).data('datedeformation'));
+                $('#modal-lieudeformation').text($(this).data('lieudeformation'));
+                $('#modal-intituleformation').text($(this).data('intituleformation'));
+                $('#modal-transporttype').text($(this).data('transporttype'));
+                $('#modal-hebergementgratuit').text($(this).data('hebergementgratuit'));
+                $('#modal-fraisrestauration').text($(this).data('fraisrestauration'));
+                $('#modal-montantrestauration').text($(this).data('montantrestauration'));
+                $('#modal-titulairecompte').text($(this).data('titulairecompte'));
+                $('#modal-iban').text($(this).data('iban'));
+                $('#modal-bic').text($(this).data('bic'));
+            });
+        });
+    </script>
 </head>
 <body>
-<h1>Bienvenue dans l'espace professeur!</h1>
+<div class="container mt-4">
+    <h1 class="mb-3">Bienvenue dans l'espace professeur!</h1>
 
-<!-- Bouton pour préparer la déclaration -->
-<a th:href="@{/professor/prepareDeclaration}">Préparer la déclaration</a>
+    <a th:href="@{/professor/prepareDeclaration}" class="btn btn-primary mb-2">Préparer la déclaration</a>
 
-<!-- Formulaire de déconnexion -->
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Déconnexion"/>
-</form>
+    <form th:action="@{/logout}" method="post" class="mb-3">
+        <input type="submit" value="Déconnexion" class="btn btn-secondary"/>
+    </form>
+
+    <div>
+        <h2 class="mb-3">Vos déclarations</h2>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Ref Dossier</th>
+                <th>Date de Création</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="declaration : ${declarations}">
+                <td th:text="${declaration.id}"></td>
+                <td th:text="${declaration.refDossier}"></td>
+                <td th:text="${#dates.format(declaration.dateCreation, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                <td th:text="${declaration.status}"></td>
+                <td>
+                    <div th:if="${declaration.status == 'valide'}" >
+                        <button type="button" class="btn btn-success btn-sm view-declaration"
+                                data-toggle="modal" data-target="#declarationModal"
+                                th:attr="data-id=${declaration.id},
+                                         data-refdossier=${declaration.refDossier},
+                                         data-datecreation=${#dates.format(declaration.dateCreation, 'dd/MM/yyyy')},
+                                         data-status=${declaration.status},
+                                         data-datedeformation=${#dates.format(declaration.dateFormation, 'dd/MM/yyyy')},
+                                         data-lieudeformation=${declaration.lieuFormation},
+                                         data-intituleformation=${declaration.intituleFormation},
+                                         data-transporttype=${declaration.transportType},
+                                         data-hebergementgratuit=${declaration.hebergementGratuit != null ? (declaration.hebergementGratuit ? 'Gratuit' : 'Payant') : 'Non défini'},
+                                         data-fraisrestauration=${declaration.fraisRestauration != null ? (declaration.fraisRestauration ? 'Payant' : 'Gratuit') : 'Non défini'},
+                                         data-montantrestauration=${declaration.montantRestauration},
+                                         data-titulairecompte=${declaration.titulaireCompte},
+                                         data-iban=${declaration.iban},
+                                         data-bic=${declaration.bic}">
+                            Voir
+                        </button>
+                    </div>
+                    <div th:if="${declaration.status != 'valide'}">
+                        <a th:href="@{/professor/editDeclaration(declarationId=${declaration.id})}" class="btn btn-info btn-sm">Modifier</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="declarationModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Détails de la Déclaration</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td id="modal-declaration-id"></td>
+                        </tr>
+                        <tr>
+                            <th>Ref Dossier</th>
+                            <td id="modal-refdossier"></td>
+                        </tr>
+                        <tr>
+                            <th>Date de Création</th>
+                            <td id="modal-datecreation"></td>
+                        </tr>
+                        <tr>
+                            <th>Status du dossier</th>
+                            <td id="modal-status"></td>
+                        </tr>
+                        <tr>
+                            <th>Date de la Formation</th>
+                            <td id="modal-datedeformation"></td>
+                        </tr>
+                        <tr>
+                            <th>Lieu de la Formation</th>
+                            <td id="modal-lieudeformation"></td>
+                        </tr>
+                        <tr>
+                            <th>Intitulé de la Formation</th>
+                            <td id="modal-intituleformation"></td>
+                        </tr>
+                        <tr>
+                            <th>Type de transport</th>
+                            <td id="modal-transporttype"></td>
+                        </tr>
+                        <tr>
+                            <th>Type d'Hébergement</th>
+                            <td id="modal-hebergementgratuit"></td>
+                        </tr>
+                        <tr>
+                            <th>Frais de Restauration</th>
+                            <td id="modal-fraisrestauration"></td>
+                        </tr>
+                        <tr>
+                            <th>Montant des Frais de Restauration</th>
+                            <td id="modal-montantrestauration"></td>
+                        </tr>
+                        <tr>
+                            <th>Titulaire du Compte</th>
+                            <td id="modal-titulairecompte"></td>
+                        </tr>
+                        <tr>
+                            <th>IBAN</th>
+                            <td id="modal-iban"></td>
+                        </tr>
+                        <tr>
+                            <th>BIC</th>
+                            <td id="modal-bic"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

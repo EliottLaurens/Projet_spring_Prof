@@ -2,58 +2,64 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Étape 4: Déclarez vos frais d'hébergement</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         .step-nav {
             list-style: none;
-            overflow: hidden;
-            padding-left: 0;
+            padding: 0;
         }
         .step-nav li {
-            float: left;
-            padding: 5px 10px;
-            border-right: 1px solid #ddd;
-            color: #999; /* Gris clair pour les étapes non atteintes */
+            padding: 8px 15px;
+            margin-bottom: 4px;
+            border-radius: 4px;
         }
         .step-nav li.completed {
-            background-color: #0f0; /* Vert pour les étapes terminées */
+            background-color: #28a745; /* Vert pour les étapes terminées */
             color: white;
         }
         .step-nav li.current {
-            background-color: #666; /* Gris foncé pour l'étape en cours */
+            background-color: #007bff; /* Bleu pour l'étape en cours */
             color: white;
         }
-        .step-nav li:last-child {
-            border-right: none;
+        .step-nav li a {
+            color: inherit; /* Assure que les liens utilisent la couleur du li parent */
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-<div th:replace="fragments/navigation :: stepNavigation(${stepNumber}, ${declaration.id})"></div>
-<h1>Étape 4: Déclarez vos frais d'hébergement</h1>
-<form th:action="@{/professor/processHebergement}" th:object="${declaration}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    <div>
-        <input type="radio" id="hebergementGratuit" name="hebergementGratuit" th:value="true" th:checked="${declaration.hebergementGratuit == true}" />
-        <label for="hebergementGratuit">Hébergement gratuit</label>
-    </div>
-    <div>
-        <input type="radio" id="hebergementPayant" name="hebergementGratuit" th:value="false" th:checked="${declaration.hebergementGratuit == false}" />
-        <label for="hebergementPayant">Hébergement payant</label>
-    </div>
-    <input type="submit" value="Continuer"/>
-</form>
+<div class="container mt-4">
+    <div th:replace="fragments/navigation :: stepNavigation(${stepNumber}, ${declaration.id})"></div>
+    <h1 class="mb-3">Étape 4: Déclarez vos frais d'hébergement</h1>
+    <form th:action="@{/professor/processHebergement}" th:object="${declaration}" method="post" class="mb-3">
+        <input type="hidden" th:field="*{id}" />
+        <div class="form-check">
+            <input type="radio" id="hebergementGratuit" name="hebergementGratuit" th:value="true" th:checked="${declaration.hebergementGratuit == true}" class="form-check-input" />
+            <label class="form-check-label" for="hebergementGratuit">Hébergement gratuit</label>
+        </div>
+        <div class="form-check">
+            <input type="radio" id="hebergementPayant" name="hebergementGratuit" th:value="false" th:checked="${declaration.hebergementGratuit == false}" class="form-check-input" />
+            <label class="form-check-label" for="hebergementPayant">Hébergement payant</label>
+        </div>
+        <input type="submit" value="Continuer" class="btn btn-primary"/>
+    </form>
 
-<!-- Affichage conditionnel basé sur l'état de l'hébergement -->
-<div th:if="${declaration.hebergementGratuit != null}">
-    <div th:if="${declaration.hebergementGratuit}">
-        <p>Votre hébergement est actuellement <strong>gratuit</strong>.</p>
+    <!-- Affichage conditionnel basé sur l'état de l'hébergement -->
+    <div th:if="${declaration.hebergementGratuit != null}">
+        <div th:if="${declaration.hebergementGratuit}" class="alert alert-info">
+            <p>Votre hébergement est actuellement <strong>gratuit</strong>.</p>
+        </div>
+        <div th:if="${!declaration.hebergementGratuit}" class="alert alert-warning">
+            <p>Votre hébergement est actuellement <strong>payant</strong>.</p>
+        </div>
     </div>
-    <div th:if="${!declaration.hebergementGratuit}">
-        <p>Votre hébergement est actuellement <strong>payant</strong>.</p>
+    <div th:if="${declaration.hebergementGratuit == null}" class="alert alert-secondary">
+        <p>Le statut de votre hébergement n'est pas encore défini.</p>
     </div>
 </div>
-<div th:if="${declaration.hebergementGratuit == null}">
-    <p>Le statut de votre hébergement n'est pas encore défini.</p>
-</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
